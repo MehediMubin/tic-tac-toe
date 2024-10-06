@@ -1,38 +1,8 @@
-import { useState } from "react";
-import calculateWinner from "../utils/calculateWinner";
+/* eslint-disable react/prop-types */
 import Square from "./Square";
-const Board = () => {
-   const [isX, setIsX] = useState(true);
-   const [squares, setSquares] = useState(Array(9).fill(null));
-
-   const winner = calculateWinner(squares);
-
-   const handleClick = (idx) => {
-      if (squares[idx] || winner) {
-         return;
-      }
-      const newSquare = [...squares];
-      if (isX) {
-         newSquare[idx] = "X";
-      } else {
-         newSquare[idx] = "O";
-      }
-      setSquares(newSquare);
-      setIsX(!isX);
-   };
-
+const Board = ({ squares, handleClick }) => {
    return (
       <>
-         {winner ? (
-            <h1 className="text-xl mb-2 text-red-500 tracking-wide">
-               Winner is {winner}
-            </h1>
-         ) : (
-            <h1 className="text-xl mb-2 text-red-500 tracking-wide">{`Next move: ${
-               isX ? "X" : "O"
-            }`}</h1>
-         )}
-
          <div className="flex">
             <Square value={squares[0]} handleClick={() => handleClick(0)} />
             <Square value={squares[1]} handleClick={() => handleClick(1)} />
