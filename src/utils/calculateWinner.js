@@ -18,8 +18,7 @@ export default function calculateWinner(squares) {
          squares[a] === squares[c]
       ) {
          return squares[a];
-      } else {
-         return null;
       }
    }
+   return null;
 }
