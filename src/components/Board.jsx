@@ -1,21 +1,36 @@
 import { useState } from "react";
+import { calculateWinner } from "../utility/calculateWinner";
 import Square from "./Square";
 
 const Board = () => {
    const [squares, setSquares] = useState(Array(9).fill(null));
-   const [turn, setTurn] = useState(null);
+   const [turn, setTurn] = useState("X");
+
+   const winner = calculateWinner(squares);
+   let status;
+
+   if (winner) {
+      status = `Winner: ${winner}`;
+   } else {
+      status = `Next Turn: ${turn}`;
+   }
 
    const handleClick = (idx) => {
+      if (winner || squares[idx]) {
+         return;
+      }
+
       const nextSquare = [...squares];
-      const nextTurn = turn === "X" ? "O" : "X";
+      const nextTurn = turn;
 
       nextSquare[idx] = nextTurn;
-      setTurn(nextTurn);
+      setTurn(turn === "X" ? "O" : "X");
       setSquares(nextSquare);
    };
 
    return (
       <>
+         <div>{status}</div>
          <div className="flex">
             <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
             <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
